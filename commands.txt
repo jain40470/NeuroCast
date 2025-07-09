@@ -1,0 +1,41 @@
+# To create a env
+
+python3 -m venv NeuroCast
+source NeuroCast/bin/activate
+pip install ipykernel
+python -m ipykernel install --user --name=NeuroCast --display-name "Python (NeuroCast)"
+
+
+# To install dependenices
+
+pip3 install -r requirements.txt
+
+# For fastapi Backend
+
+pip3 install fastapi
+pip3 install uvicorn
+
+uvicorn main:app --reload
+
+# Git
+
+git status
+git add .
+git commit -m "message"
+git push origin main
+
+# To delete a env
+
+rm -rf env
+
+
+# For Frontend React
+
+npm create vite@latest Frontend -- --template react
+cd Frontend
+
+npm install
+
+npm install tailwindcss @tailwindcss/vite
+
+npm run dev
