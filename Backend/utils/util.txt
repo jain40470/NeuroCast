@@ -1,0 +1,56 @@
+
+# 🧩 Step-by-Step Breakdown:
+# ✅ 1. key.encode()
+
+# Converts your regular Python string into bytes.
+# Why? Because fernet.encrypt() requires bytes, not strings.
+# "my-secret".encode()  →  b'my-secret'
+# ✅ 2. fernet.encrypt(...)
+
+# Encrypts the bytes using your Fernet key.
+# Output: an encrypted byte string like:
+# b'gAAAAABkxZsTk8E...very-long-token...'
+# ✅ 3. .decode()
+
+# Converts the encrypted bytes back to a string (UTF-8).
+# Why? So you can store it in a database or send it over HTTP — both of which expect strings, not byte sequences.
+
+# from cryptography.fernet import Fernet
+
+# # Generate a Fernet key once (you normally store this in env)
+# key = Fernet.generate_key()
+# fernet = Fernet(key)
+
+# def encrypt_key(plain_text: str) -> str:
+#     return fernet.encrypt(plain_text.encode()).decode()
+
+# def decrypt_key(encrypted_text: str) -> str:
+#     return fernet.decrypt(encrypted_text.encode()).decode()
+
+# # Example
+# original = "super-secret-api-key"
+# encrypted = encrypt_key(original)
+# decrypted = decrypt_key(encrypted)
+
+# print("Original:", original)
+# print("Encrypted:", encrypted)
+# print("Decrypted:", decrypted)
+
+# Output
+
+Original: super-secret-api-key
+Encrypted: gAAAAABl... (long encoded string)
+Decrypted: super-secret-api-key
+
+Step	    What it does
+.encode()	Converts string → bytes (required by Fernet)
+encrypt()	Encrypts bytes using Fernet
+.decode()	Converts encrypted bytes → string (for storage/transmission)
+
+| Feature           | **Encoding**                                                                   | **Encryption**                                            |
+| ----------------- | ------------------------------------------------------------------------------ | --------------------------------------------------------- |
+| **Purpose**       | To **transform data** for safe transport or storage (e.g., make it ASCII-safe) | To **secure data** so only authorized parties can read it |
+| **Is it secure?** | ❌ No — anyone can decode it                                                    | ✅ Yes — only someone with the key can decrypt it          |
+| **Reversible?**   | ✅ Yes — always reversible with the right decoder                               | ✅ Yes — but only with the correct decryption key          |
+| **Examples**      | Base64, URL encoding, UTF-8                                                    | AES, Fernet, RSA                                          |
+| **Needs key?**    | ❌ No                                                                           | ✅ Yes (secret key or public/private key)                  |
