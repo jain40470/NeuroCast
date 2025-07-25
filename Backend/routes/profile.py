@@ -6,9 +6,11 @@ from db import users_collection
 router = APIRouter()
 
 @router.get("/profile", response_model=ProfileResponse)
+
 async def get_profile(authorization: str = Header(...)):
     if not authorization.startswith("Bearer "):
         raise HTTPException(status_code=401, detail="Invalid authorization header")
+    
     token = authorization.split(" ")[1]
     email = verify_jwt(token)
 

@@ -13,16 +13,22 @@ GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID")
 async def google_login(request: Request):
     
     data = await request.json()
+
     token = data.get("credential")
+
     if not token:
         raise HTTPException(status_code=400, detail="No token provided")
 
     resp = requests.get(f"https://oauth2.googleapis.com/tokeninfo?id_token={token}")
+
     if resp.status_code != 200:
+
         raise HTTPException(status_code=400, detail="Invalid Google token")
 
     user_info = resp.json()
+
     if user_info.get("aud") != GOOGLE_CLIENT_ID:
+
         raise HTTPException(status_code=400, detail="Client ID mismatch")
 
     email = user_info.get("email")
